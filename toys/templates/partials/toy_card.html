@@ -1,4 +1,6 @@
-{% load i18n %} {# Компонент карточки товара. Ожидает переменную toy #}
+{% load i18n %}
+{% load media_tags %}
+{# Компонент карточки товара. Ожидает переменную toy #}
 <style>
   .toy-card.custom-bg {
     background: white !important;
@@ -109,7 +111,7 @@
   >
     <div class="toy-card-img">
       {% if toy.main_image %}
-      <img src="{{ toy.main_image.url }}" alt="{{ toy.name }}" />
+      <img src="{{ toy.main_image.url|media_url }}" alt="{{ toy.name }}" />
       {% else %}
       <img
         src="https://cdn-icons-png.flaticon.com/512/346/346399.png"

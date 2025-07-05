@@ -31,9 +31,6 @@ RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -76,6 +73,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.i18n',
                 'toys.context_processors.current_language',
+                'toys.context_processors.media_url',
             ],
         },
     },
@@ -142,7 +140,31 @@ STATICFILES_DIRS = [
     BASE_DIR / 'assets',
 ]
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# Media files
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+# WhiteNoise configuration
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+WHITENOISE_USE_FINDERS = True
+WHITENOISE_ROOT = STATIC_ROOT
+WHITENOISE_AUTOREFRESH = True
+WHITENOISE_MANIFEST_STRICT = False
+
+if not DEBUG:
+    WHITENOISE_KEEP_ONLY_HASHED_FILES = False
+    # Add media files to be served by WhiteNoise
+    WHITENOISE_MIMETYPES = {
+        '.jpg': 'image/jpeg',
+        '.jpeg': 'image/jpeg',
+        '.png': 'image/png',
+        '.gif': 'image/gif',
+        '.webp': 'image/webp',
+        '.ico': 'image/x-icon',
+    }
+    # Добавляем медиа файлы в статические директории
+    STATICFILES_DIRS.append(('media', MEDIA_ROOT))
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
