@@ -1,0 +1,285 @@
+{% load i18n %} {# Компонент карточки товара. Ожидает переменную toy #}
+<style>
+  .toy-card.custom-bg {
+    background: white !important;
+    transition: background 0.2s, border-color 0.2s;
+    display: grid;
+    grid-template-rows: 2fr auto 1fr auto;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    height: 100%;
+    min-height: 420px;
+    position: relative;
+    overflow: hidden;
+  }
+  .toy-card.custom-bg.card-hover:hover {
+    border-color: #846eb2 !important;
+  }
+  .toy-card-img {
+    grid-row: 1 / 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 0;
+    max-height: 100%;
+  }
+  .toy-card-img img {
+    max-height: 140px;
+    object-fit: contain;
+    width: auto;
+    margin: 0 auto;
+  }
+  .toy-card-title {
+    grid-row: 3 / 4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-weight: bold;
+  }
+  .toy-card-tags {
+    grid-row: 2 / 3;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25em;
+    align-items: center;
+    justify-content: center;
+    min-height: 0;
+    padding: 0 8px;
+  }
+  .toy-card-price {
+    grid-row: 4 / 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 0;
+    font-size: 1.1rem;
+    font-weight: bold;
+    padding: 0 8px;
+  }
+  .cart-fab-btn {
+    display: none;
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    z-index: 2;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #846eb2;
+    color: #fff;
+    border: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+  }
+  .toy-card.custom-bg.card-hover:hover .cart-fab-btn {
+    display: flex;
+  }
+  .cart-fab-btn:hover {
+    background: #6c4bb6;
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(132, 110, 178, 0.15);
+  }
+  .cart-add-btn {
+    display: none !important;
+  }
+  .toy-card-out-of-stock {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+  .toy-card-out-of-stock .cart-fab-btn {
+    display: none !important;
+  }
+  .toy-card-out-of-stock:hover {
+    border-color: #dee2e6 !important;
+    box-shadow: none !important;
+  }
+  .toy-card-out-of-stock .toy-card.custom-bg.card-hover:hover {
+    border-color: #dee2e6 !important;
+  }
+</style>
+<a href="/toys/{{ toy.slug }}/" class="text-decoration-none">
+  <div
+    class="card toy-card custom-bg h-100 card-hover position-relative{% if toy.stock == 0 %} toy-card-out-of-stock{% endif %}"
+    style="cursor: pointer; border: 2px dashed black; border-radius: 40px"
+  >
+    <div class="toy-card-img">
+      {% if toy.main_image %}
+      <img src="{{ toy.main_image.url }}" alt="{{ toy.name }}" />
+      {% else %}
+      <img
+        src="https://cdn-icons-png.flaticon.com/512/346/346399.png"
+        alt="{{ toy.name }}"
+      />
+      {% endif %}
+    </div>
+
+    <div class="toy-card-tags">
+      <span class="badge bg-secondary">{{ toy.category.name }}</span>
+    </div>
+    <div class="toy-card-title">{{ toy.name }}</div>
+    <div class="toy-card-price">
+      <strong>{{ toy.price }} ₽</strong>
+      {% if toy.old_price and toy.old_price > toy.price %}
+      <span class="text-muted text-decoration-line-through ms-2"
+        >{{ toy.old_price }} ₽</span
+      >
+      {% endif %}
+    </div>
+    <form
+      action="/cart/add/{{ toy.id }}/"
+      method="post"
+      class="mt-2 cart-add-form"
+      data-toy-id="{{ toy.id }}"
+      style="grid-row: 6 / 7"
+    >
+      {% csrf_token %}
+      <input type="hidden" name="next" value="{{ request.get_full_path }}" />
+      <button
+        type="submit"
+        class="btn btn-outline-primary btn-sm w-100 cart-add-btn"
+      >
+        <i class="bi bi-cart-plus"></i> {% trans 'В корзину' %}
+      </button>
+      {% if toy.stock > 0 %}
+      <button
+        type="button"
+        class="cart-fab-btn"
+        title="{% trans 'В корзину' %}"
+      >
+        <i class="bi bi-cart-plus"></i>
+      </button>
+      {% endif %}
+    </form>
+    {% if toy.is_featured %}
+    <span
+      class="position-absolute top-0 badge rounded-pill bg-warning text-dark m-2"
+      style="left: 16px"
+      >{% trans 'Рекомендуем' %}</span
+    >
+    {% elif toy.is_bestseller %}
+    <span
+      class="position-absolute top-0 badge rounded-pill bg-success m-2"
+      style="left: 16px"
+      >{% trans 'Бестселлер' %}</span
+    >
+    {% elif toy.is_new %}
+    <span
+      class="position-absolute top-0 badge rounded-pill bg-info text-dark m-2"
+      style="left: 16px"
+      >{% trans 'Новинка' %}</span
+    >
+    {% endif %}
+  </div>
+</a>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Обработчик для форм добавления в корзину
+    document.querySelectorAll(".cart-add-form").forEach(function (form) {
+      // FAB-кнопка
+      const fabBtn = form.querySelector(".cart-fab-btn");
+      if (fabBtn && !fabBtn.dataset.initialized) {
+        fabBtn.dataset.initialized = "true";
+        fabBtn.addEventListener("click", function (e) {
+          e.preventDefault();
+          if (fabBtn.disabled) return;
+          fabBtn.disabled = true;
+          form.dispatchEvent(new Event("submit", { cancelable: true }));
+        });
+      }
+      if (!form.dataset.initialized) {
+        form.dataset.initialized = "true";
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+          if (fabBtn) fabBtn.disabled = true;
+          // Отправляем AJAX запрос
+          fetch(form.action, {
+            method: "POST",
+            headers: {
+              "X-Requested-With": "XMLHttpRequest",
+              "X-CSRFToken": form.querySelector("[name=csrfmiddlewaretoken]")
+                .value,
+            },
+            body: new FormData(form),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              if (fabBtn) fabBtn.disabled = false;
+              if (data.success) {
+                // Обновляем счетчик корзины в header
+                const cartLink = document.querySelector(
+                  '.nav-link[href="/cart/"]'
+                );
+                if (cartLink) {
+                  let cartBadge = cartLink.querySelector(".badge");
+                  if (data.cart_count > 0) {
+                    if (cartBadge) {
+                      cartBadge.textContent = data.cart_count;
+                    } else {
+                      cartBadge = document.createElement("span");
+                      cartBadge.className =
+                        "position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger";
+                      cartBadge.textContent = data.cart_count;
+                      cartLink.appendChild(cartBadge);
+                    }
+                  } else {
+                    if (cartBadge) {
+                      cartBadge.remove();
+                    }
+                  }
+                }
+                // Показываем уведомление
+                showNotification(data.message, "success");
+              } else {
+                throw new Error("Ошибка добавления товара");
+              }
+            })
+            .catch((error) => {
+              if (fabBtn) fabBtn.disabled = false;
+              console.error("Ошибка:", error);
+              showNotification("Ошибка при добавлении товара", "error");
+            });
+        });
+      }
+    });
+
+    // Функция для показа уведомлений
+    function showNotification(message, type) {
+      // Создаем элемент уведомления
+      const notification = document.createElement("div");
+      notification.className = `alert alert-${
+        type === "success" ? "success" : "danger"
+      } alert-dismissible fade show position-fixed`;
+      notification.style.cssText =
+        "bottom: 20px; right: 20px; z-index: 9999; min-width: 300px; position: fixed;";
+      notification.innerHTML = `
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        `;
+
+      document.body.appendChild(notification);
+
+      // Обработчик для кнопки закрытия
+      const closeBtn = notification.querySelector(".btn-close");
+      if (closeBtn) {
+        closeBtn.addEventListener("click", function () {
+          if (notification.parentNode) {
+            notification.remove();
+          }
+        });
+      }
+
+      // Удаляем уведомление через 3 секунды
+      setTimeout(() => {
+        if (notification.parentNode) {
+          notification.remove();
+        }
+      }, 3000);
+    }
+  });
+</script>

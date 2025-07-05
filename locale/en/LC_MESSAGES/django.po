@@ -1,0 +1,533 @@
+# English translations for toy_shop project.
+# Copyright (C) 2024 ORGANIZATION
+# This file is distributed under the same license as the toy_shop project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: toy_shop 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-07-02 01:49+0300\n"
+"PO-Revision-Date: 2024-01-01 12:00+0000\n"
+"Last-Translator: \n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: .\toys\models.py:8 .\toys\models.py:51 .\toys\models.py:80
+#, fuzzy
+#| msgid "Описание:"
+msgid "Название"
+msgstr "Description:"
+
+#: .\toys\models.py:9 .\toys\models.py:31 .\toys\models.py:81
+msgid "URL-адрес"
+msgstr ""
+
+#: .\toys\models.py:10 .\toys\models.py:33 .\toys\models.py:54
+#: .\toys\models.py:90
+#, fuzzy
+#| msgid "Описание:"
+msgid "Описание"
+msgstr "Description:"
+
+#: .\toys\models.py:11 .\toys\models.py:55 .\toys\models.py:150
+msgid "Изображение"
+msgstr ""
+
+#: .\toys\models.py:13
+msgid "Родительская категория"
+msgstr ""
+
+#: .\toys\models.py:14 .\toys\models.py:56
+msgid "Активна"
+msgstr ""
+
+#: .\toys\models.py:15 .\toys\models.py:37 .\toys\models.py:116
+#: .\toys\models.py:154 .\toys\models.py:171 .\toys\models.py:200
+msgid "Дата создания"
+msgstr ""
+
+#: .\toys\models.py:16 .\toys\models.py:117 .\toys\models.py:201
+msgid "Дата обновления"
+msgstr ""
+
+#: .\toys\models.py:19 .\toys\models.py:85 .\toys\templates\toys\shop.html:81
+msgid "Категория"
+msgstr "Category"
+
+#: .\toys\models.py:20
+#, fuzzy
+#| msgid "Категория"
+msgid "Категории"
+msgstr "Category"
+
+#: .\toys\models.py:30
+#, fuzzy
+#| msgid "Наши бренды"
+msgid "Название бренда"
+msgstr "Our Brands"
+
+#: .\toys\models.py:32
+msgid "Страна"
+msgstr ""
+
+#: .\toys\models.py:34
+msgid "Логотип"
+msgstr ""
+
+#: .\toys\models.py:35
+msgid "Веб-сайт"
+msgstr ""
+
+#: .\toys\models.py:36 .\toys\models.py:101
+msgid "Активен"
+msgstr ""
+
+#: .\toys\models.py:40 .\toys\models.py:86 .\toys\templates\toys\shop.html:90
+msgid "Бренд"
+msgstr "Brand"
+
+#: .\toys\models.py:41
+#, fuzzy
+#| msgid "Бренд"
+msgid "Бренды"
+msgstr "Brand"
+
+#: .\toys\models.py:52
+#, fuzzy
+#| msgid "Фильтр по возрасту"
+msgid "Минимальный возраст"
+msgstr "Age filter"
+
+#: .\toys\models.py:53
+#, fuzzy
+#| msgid "Фильтр по возрасту"
+msgid "Максимальный возраст"
+msgstr "Age filter"
+
+#: .\toys\models.py:59 .\toys\models.py:87
+msgid "Возрастная группа"
+msgstr ""
+
+#: .\toys\models.py:60
+msgid "Возрастные группы"
+msgstr ""
+
+#: .\toys\models.py:68
+msgid "Новый"
+msgstr ""
+
+#: .\toys\models.py:69
+msgid "Б/у"
+msgstr ""
+
+#: .\toys\models.py:70
+msgid "Восстановленный"
+msgstr ""
+
+#: .\toys\models.py:74
+msgid "Унисекс"
+msgstr ""
+
+#: .\toys\models.py:75
+msgid "Для мальчиков"
+msgstr ""
+
+#: .\toys\models.py:76
+msgid "Для девочек"
+msgstr ""
+
+#: .\toys\models.py:82 .\toys\templates\toys\toy_detail.html:103
+msgid "Артикул"
+msgstr "SKU"
+
+#: .\toys\models.py:91 .\toys\templates\toys\toy_detail.html:112
+msgid "Краткое описание"
+msgstr "Short description"
+
+#: .\toys\models.py:92 .\toys\templates\toys\toy_detail.html:117
+msgid "Характеристики"
+msgstr "Specifications"
+
+#: .\toys\models.py:95 .\toys\templates\toys\cart.html:61
+msgid "Цена"
+msgstr ""
+
+#: .\toys\models.py:96
+msgid "Старая цена"
+msgstr ""
+
+#: .\toys\models.py:97
+msgid "Количество на складе"
+msgstr ""
+
+#: .\toys\models.py:98
+msgid "Минимальный остаток"
+msgstr ""
+
+#: .\toys\models.py:102
+#, fuzzy
+#| msgid "Рекомендуем"
+msgid "Рекомендуемый"
+msgstr "Recommended"
+
+#: .\toys\models.py:103 .\toys\templates\partials\toy_card.html:168
+msgid "Бестселлер"
+msgstr "Bestseller"
+
+#: .\toys\models.py:104 .\toys\templates\partials\toy_card.html:174
+msgid "Новинка"
+msgstr "New"
+
+#: .\toys\models.py:107
+#, fuzzy
+#| msgid "Состояние:"
+msgid "Состояние"
+msgstr "Condition:"
+
+#: .\toys\models.py:108
+#, fuzzy
+#| msgid "Поиск"
+msgid "Пол"
+msgstr "Search"
+
+#: .\toys\models.py:109
+msgid "Вес (кг)"
+msgstr ""
+
+#: .\toys\models.py:110
+msgid "Размеры"
+msgstr ""
+
+#: .\toys\models.py:113 .\toys\models.py:152
+msgid "Главное изображение"
+msgstr ""
+
+#: .\toys\models.py:118
+msgid "Количество просмотров"
+msgstr ""
+
+#: .\toys\models.py:121 .\toys\models.py:149 .\toys\models.py:165
+#: .\toys\models.py:223
+msgid "Игрушка"
+msgstr ""
+
+#: .\toys\models.py:122
+msgid "Игрушки"
+msgstr ""
+
+#: .\toys\models.py:151
+msgid "Альтернативный текст"
+msgstr ""
+
+#: .\toys\models.py:153
+msgid "Порядок"
+msgstr ""
+
+#: .\toys\models.py:157
+#, fuzzy
+#| msgid "Магазин игрушек"
+msgid "Изображение игрушки"
+msgstr "Toy Store"
+
+#: .\toys\models.py:158
+#, fuzzy
+#| msgid "Магазин игрушек"
+msgid "Изображения игрушек"
+msgstr "Toy Store"
+
+#: .\toys\models.py:166 .\toys\models.py:191
+#: .\toys\templates\toys\checkout.html:50
+#: .\toys\templates\toys\toy_detail.html:185
+msgid "Имя"
+msgstr "Name"
+
+#: .\toys\models.py:167 .\toys\models.py:193
+#: .\toys\templates\toys\checkout.html:75
+#: .\toys\templates\toys\toy_detail.html:193
+msgid "Email"
+msgstr "Email"
+
+#: .\toys\models.py:168 .\toys\templates\toys\toy_detail.html:200
+msgid "Оценка"
+msgstr "Rating"
+
+#: .\toys\models.py:169 .\toys\templates\toys\toy_detail.html:222
+msgid "Комментарий"
+msgstr "Comment"
+
+#: .\toys\models.py:170
+#, fuzzy
+#| msgid "Наши бренды"
+msgid "Одобрен"
+msgstr "Our Brands"
+
+#: .\toys\models.py:174
+#, fuzzy
+#| msgid "Отзывы"
+msgid "Отзыв"
+msgstr "Reviews"
+
+#: .\toys\models.py:175 .\toys\templates\toys\toy_detail.html:360
+msgid "Отзывы"
+msgstr "Reviews"
+
+#: .\toys\models.py:183
+msgid "Ожидает обработки"
+msgstr ""
+
+#: .\toys\models.py:184
+msgid "В обработке"
+msgstr ""
+
+#: .\toys\models.py:185
+#, fuzzy
+#| msgid "Отправить отзыв"
+msgid "Отправлен"
+msgstr "Submit review"
+
+#: .\toys\models.py:186
+msgid "Доставлен"
+msgstr ""
+
+#: .\toys\models.py:187
+msgid "Отменён"
+msgstr ""
+
+#: .\toys\models.py:190
+#, fuzzy
+#| msgid "Оформление заказа"
+msgid "Номер заказа"
+msgstr "Checkout"
+
+#: .\toys\models.py:192 .\toys\templates\toys\checkout.html:62
+msgid "Фамилия"
+msgstr ""
+
+#: .\toys\models.py:194 .\toys\templates\toys\checkout.html:87
+msgid "Телефон"
+msgstr ""
+
+#: .\toys\models.py:195 .\toys\templates\toys\checkout.html:99
+msgid "Адрес доставки"
+msgstr ""
+
+#: .\toys\models.py:197
+msgid "Общая сумма"
+msgstr ""
+
+#: .\toys\models.py:198
+msgid "Статус"
+msgstr ""
+
+#: .\toys\models.py:204 .\toys\models.py:222
+msgid "Заказ"
+msgstr ""
+
+#: .\toys\models.py:205
+msgid "Заказы"
+msgstr ""
+
+#: .\toys\models.py:224 .\toys\templates\toys\cart.html:62
+msgid "Количество"
+msgstr ""
+
+#: .\toys\models.py:225
+msgid "Цена за единицу"
+msgstr ""
+
+#: .\toys\models.py:226 .\toys\templates\toys\cart.html:63
+msgid "Сумма"
+msgstr ""
+
+#: .\toys\models.py:229
+#, fuzzy
+#| msgid "Оформление заказа"
+msgid "Товар заказа"
+msgstr "Checkout"
+
+#: .\toys\models.py:230
+#, fuzzy
+#| msgid "Оформление заказа"
+msgid "Товары заказа"
+msgstr "Checkout"
+
+#: .\toys\templates\partials\header.html:52
+msgid "Бесплатная доставка по всему миру"
+msgstr "Free worldwide shipping"
+
+#: .\toys\templates\partials\header.html:61 .\toys\templates\toys\cart.html:6
+#: .\toys\templates\toys\cart.html:55
+msgid "Корзина"
+msgstr "Cart"
+
+#: .\toys\templates\partials\header.html:83
+msgid "Главная"
+msgstr "Home"
+
+#: .\toys\templates\partials\header.html:86 .\toys\templates\toys\cart.html:6
+#: .\toys\templates\toys\checkout.html:7 .\toys\templates\toys\home.html:283
+#: .\toys\templates\toys\shop.html:124 .\toys\templates\toys\toy_detail.html:6
+#: .\toys\templates\toys\toy_detail.html:382
+msgid "Магазин игрушек"
+msgstr "Toy Store"
+
+#: .\toys\templates\partials\header.html:89
+msgid "Магазин"
+msgstr "Shop"
+
+#: .\toys\templates\partials\toy_card.html:146
+#: .\toys\templates\partials\toy_card.html:152
+#: .\toys\templates\toys\toy_detail.html:145
+msgid "В корзину"
+msgstr "Add to cart"
+
+#: .\toys\templates\partials\toy_card.html:162
+msgid "Рекомендуем"
+msgstr "Recommended"
+
+#: .\toys\templates\toys\_pagination.html:2
+#: .\toys\templates\toys\_shop_products.html:13
+msgid "Пагинация"
+msgstr ""
+
+#: .\toys\templates\toys\_shop_products.html:9
+#: .\toys\templates\toys\shop.html:115
+msgid "Нет товаров по выбранным фильтрам."
+msgstr "No products found with selected filters."
+
+#: .\toys\templates\toys\cart.html:60
+msgid "Товар"
+msgstr ""
+
+#: .\toys\templates\toys\cart.html:146
+#, fuzzy
+#| msgid "Отправить отзыв"
+msgid "Удалить товар"
+msgstr "Submit review"
+
+#: .\toys\templates\toys\cart.html:157 .\toys\templates\toys\checkout.html:149
+msgid "Итого"
+msgstr ""
+
+#: .\toys\templates\toys\cart.html:163
+msgid "Очистить"
+msgstr ""
+
+#: .\toys\templates\toys\cart.html:172
+msgid "Продолжить покупки"
+msgstr ""
+
+#: .\toys\templates\toys\cart.html:175 .\toys\templates\toys\checkout.html:110
+#, fuzzy
+#| msgid "Оформление заказа"
+msgid "Оформить заказ"
+msgstr "Checkout"
+
+#: .\toys\templates\toys\cart.html:179
+msgid "Ваша корзина пуста."
+msgstr "Your cart is empty."
+
+#: .\toys\templates\toys\checkout.html:7 .\toys\templates\toys\checkout.html:35
+msgid "Оформление заказа"
+msgstr "Checkout"
+
+#: .\toys\templates\toys\checkout.html:42
+msgid "Данные покупателя"
+msgstr ""
+
+#: .\toys\templates\toys\checkout.html:120
+msgid "Ваш заказ"
+msgstr ""
+
+#: .\toys\templates\toys\home.html:185
+msgid "Добро пожаловать в ToyBiz"
+msgstr "Welcome to ToyBiz"
+
+#: .\toys\templates\toys\home.html:187
+msgid "Лучшие игрушки для детей всех возрастов"
+msgstr "Best toys for children of all ages"
+
+#: .\toys\templates\toys\home.html:189
+msgid "Перейти в магазин"
+msgstr "Go to shop"
+
+#: .\toys\templates\toys\home.html:202
+msgid "Категории игрушек"
+msgstr "Toy Categories"
+
+#: .\toys\templates\toys\home.html:246
+msgid "Нет игрушек для отображения."
+msgstr "No toys to display."
+
+#: .\toys\templates\toys\home.html:252
+msgid "Посмотреть все товары"
+msgstr "View all products"
+
+#: .\toys\templates\toys\home.html:258
+msgid "Наши бренды"
+msgstr "Our Brands"
+
+#: .\toys\templates\toys\shop.html:56
+msgid "Фильтр по возрасту"
+msgstr "Age filter"
+
+#: .\toys\templates\toys\shop.html:77
+msgid "Поиск"
+msgstr "Search"
+
+#: .\toys\templates\toys\shop.html:78
+msgid "Название или описание..."
+msgstr "Name or description..."
+
+#: .\toys\templates\toys\shop.html:83 .\toys\templates\toys\shop.html:92
+msgid "Все"
+msgstr "All"
+
+#: .\toys\templates\toys\shop.html:99
+msgid "Сбросить фильтры"
+msgstr "Reset filters"
+
+#: .\toys\templates\toys\toy_detail.html:53
+msgid "Вернуться"
+msgstr "Back"
+
+#: .\toys\templates\toys\toy_detail.html:104
+msgid "Состояние:"
+msgstr "Condition:"
+
+#: .\toys\templates\toys\toy_detail.html:107
+msgid "В наличии:"
+msgstr "In stock:"
+
+#: .\toys\templates\toys\toy_detail.html:108
+msgid "шт."
+msgstr "pcs."
+
+#: .\toys\templates\toys\toy_detail.html:149
+msgid "Нет в наличии"
+msgstr "Out of stock"
+
+#: .\toys\templates\toys\toy_detail.html:160
+msgid "Описание:"
+msgstr "Description:"
+
+#: .\toys\templates\toys\toy_detail.html:169
+#: .\toys\templates\toys\toy_detail.html:174
+msgid "Оставить отзыв"
+msgstr "Leave a review"
+
+#: .\toys\templates\toys\toy_detail.html:229
+msgid "Отправить отзыв"
+msgstr "Submit review"
+
+#: .\toys\templates\toys\toy_detail.html:375
+msgid "Пока нет отзывов."
+msgstr "No reviews yet."
+
+#: .\toys\templates\toys\home.html:220
+msgid "Рекомендуем посмотреть"
+msgstr "Recommended for you"

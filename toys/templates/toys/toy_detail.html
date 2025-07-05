@@ -1,0 +1,396 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    {% load static %}
+    <link rel="icon" type="image/png" href="{% static 'logo.png' %}" />
+    <title>{{ toy.name }} — {% trans 'ToyBiz' %}</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <style>
+      .gallery-thumb {
+        max-height: 80px;
+        max-width: 80px;
+        object-fit: contain;
+        cursor: pointer;
+        border: 2px solid transparent;
+      }
+      .gallery-thumb.active {
+        border-color: #0d6efd;
+      }
+      .main-image {
+        max-height: 320px;
+        object-fit: contain;
+        width: 100%;
+      }
+      .spec-table td {
+        padding: 4px 8px;
+      }
+    </style>
+    <script>
+      // Галерея: смена главного изображения
+      document.addEventListener("DOMContentLoaded", function () {
+        const thumbs = document.querySelectorAll(".gallery-thumb");
+        const mainImg = document.getElementById("main-image");
+        thumbs.forEach((thumb) => {
+          thumb.addEventListener("click", function () {
+            mainImg.src = this.dataset.src;
+            thumbs.forEach((t) => t.classList.remove("active"));
+            this.classList.add("active");
+          });
+        });
+      });
+    </script>
+  </head>
+  <body>
+    {% include 'partials/header.html' %}
+    <div class="container py-4">
+      <a href="/shop/" class="btn btn-link mb-3"
+        >&larr; {% trans 'Вернуться' %}</a
+      >
+      <div class="row">
+        <div class="col-md-6">
+          {% if images %}
+          <img
+            id="main-image"
+            src="{{ images.0.image.url }}"
+            class="main-image mb-3"
+            alt="{{ toy.name }}"
+            style="background-color: white; border-radius: 20px"
+          />
+          <div class="d-flex gap-2 flex-wrap">
+            {% for img in images %}
+            <img
+              src="{{ img.image.url }}"
+              data-src="{{ img.image.url }}"
+              class="gallery-thumb{% if forloop.first %} active{% endif %}"
+              alt="{{ toy.name }}"
+            />
+            {% endfor %}
+          </div>
+          {% else %}
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/346/346399.png"
+            class="main-image mb-3"
+            alt="{{ toy.name }}"
+          />
+          {% endif %}
+        </div>
+        <div class="col-md-6">
+          <h1>{{ toy.name }}</h1>
+          <div class="mb-2">
+            <span class="badge bg-secondary">{{ toy.category.name }}</span>
+            {% if toy.brand %}<span class="badge bg-info text-dark"
+              >{{ toy.brand.name }}</span
+            >{% endif %} {% if toy.age_group %}<span class="badge bg-success"
+              >{{ toy.age_group.name }}</span
+            >{% endif %}
+          </div>
+          <div class="mb-3">
+            <span class="h3 text-danger">{{ toy.price }} ₽</span>
+            {% if toy.old_price and toy.old_price > toy.price %}
+            <span class="text-muted text-decoration-line-through ms-2"
+              >{{ toy.old_price }} ₽</span
+            >
+            <span class="badge bg-warning text-dark ms-2"
+              >-{{ toy.discount_percent }}%</span
+            >
+            {% endif %}
+          </div>
+          <div class="mb-3">
+            <strong>{% trans 'Артикул' %}:</strong> {{ toy.sku }}<br />
+            <strong>{% trans 'Состояние:' %}</strong>
+            {{toy.get_condition_display}}<br />
+            <!-- <strong>Пол:</strong> {{ toy.get_gender_display }}<br /> -->
+            <strong>{% trans 'В наличии:' %}</strong>
+            {{toy.stock}} {% trans 'шт.' %}
+          </div>
+          {% if toy.short_description %}
+          <div class="mb-3">
+            <strong>{% trans 'Краткое описание' %}:</strong>
+            <div>{{ toy.short_description|truncatechars:120 }}</div>
+          </div>
+          {% endif %} {% if toy.specifications %}
+          <div class="mb-3">
+            <strong>{% trans 'Характеристики' %}:</strong>
+            <table class="table table-sm w-auto spec-table">
+              <tbody>
+                {% for key, value in toy.specifications.items %}
+                <tr>
+                  <td>{{ key|capfirst }}</td>
+                  <td>{{ value }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          {% endif %}
+          <div class="mb-3">
+            <form
+              action="/cart/add/{{ toy.id }}/"
+              method="post"
+              class="d-inline cart-add-form"
+              data-toy-id="{{ toy.id }}"
+            >
+              {% csrf_token %}
+              <input
+                type="hidden"
+                name="next"
+                value="{{ request.get_full_path }}"
+              />
+              {% if toy.stock > 0 %}
+              <button type="submit" class="btn btn-success cart-add-btn">
+                <i class="bi bi-cart-plus"></i> {% trans 'В корзину' %}
+              </button>
+              {% else %}
+              <button type="button" class="btn btn-secondary" disabled>
+                <i class="bi bi-x-circle"></i> {% trans 'Нет в наличии' %}
+              </button>
+              {% endif %}
+            </form>
+          </div>
+        </div>
+      </div>
+      {% if toy.description %}
+      <div class="row mt-4">
+        <div class="col-12">
+          <div class="mb-3">
+            <strong>{% trans 'Описание:' %}</strong>
+            <div>{{ toy.description }}</div>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+      <hr class="my-4" />
+      <div class="row">
+        <div class="col-md-8">
+          <h3>{% trans 'Оставить отзыв' %}</h3>
+          {% if messages %} {% for message in messages %}
+          <div class="alert alert-success">{{ message }}</div>
+          {% endfor %} {% endif %}
+          <button id="show-review-form" class="btn btn-outline-primary mb-3">
+            {% trans 'Оставить отзыв' %}
+          </button>
+          <form
+            method="post"
+            class="mb-4"
+            id="review-form"
+            style="display: none"
+          >
+            {% csrf_token %}
+            <div class="mb-3">
+              <label for="id_name" class="form-label"
+                >{% trans 'Имя' %} *</label
+              >
+              {{ form.name }} {% if form.name.errors %}
+              <div class="text-danger small">{{ form.name.errors }}</div>
+              {% endif %}
+            </div>
+            <div class="mb-3">
+              <label for="id_email" class="form-label"
+                >{% trans 'Email' %} *</label
+              >
+              {{ form.email }} {% if form.email.errors %}
+              <div class="text-danger small">{{ form.email.errors }}</div>
+              {% endif %}
+            </div>
+            <div class="mb-3">
+              <label class="form-label">{% trans 'Оценка' %} *</label>
+              <div id="star-rating" class="mb-2">
+                {% for i in "12345" %}
+                <i
+                  class="bi bi-star star-icon"
+                  data-value="{{ forloop.counter }}"
+                  style="font-size: 2rem; color: #ccc; cursor: pointer"
+                ></i>
+                {% endfor %}
+              </div>
+              <input
+                type="hidden"
+                name="rating"
+                id="id_rating"
+                value="{{ form.rating.value|default:0 }}"
+              />
+              {% if form.rating.errors %}
+              <div class="text-danger small">{{ form.rating.errors }}</div>
+              {% endif %}
+            </div>
+            <div class="mb-3">
+              <label for="id_comment" class="form-label"
+                >{% trans 'Комментарий' %} *</label
+              >
+              {{ form.comment }} {% if form.comment.errors %}
+              <div class="text-danger small">{{ form.comment.errors }}</div>
+              {% endif %}
+            </div>
+            <button type="submit" class="btn btn-primary">
+              {% trans 'Отправить отзыв' %}
+            </button>
+          </form>
+          <script>
+            document.addEventListener("DOMContentLoaded", function () {
+              var btn = document.getElementById("show-review-form");
+              var form = document.getElementById("review-form");
+              if (btn && form) {
+                btn.addEventListener("click", function () {
+                  form.style.display =
+                    form.style.display === "none" ? "block" : "none";
+                  btn.style.display = "none";
+                });
+              }
+              // Звёздный рейтинг
+              var stars = document.querySelectorAll("#star-rating .star-icon");
+              var ratingInput = document.getElementById("id_rating");
+              var current = parseInt(ratingInput.value) || 0;
+              function setStars(rating) {
+                stars.forEach(function (star, idx) {
+                  star.style.color = idx < rating ? "#ffc107" : "#ccc";
+                });
+              }
+              setStars(current);
+              stars.forEach(function (star, idx) {
+                star.addEventListener("mouseenter", function () {
+                  setStars(idx + 1);
+                });
+                star.addEventListener("mouseleave", function () {
+                  setStars(parseInt(ratingInput.value) || 0);
+                });
+                star.addEventListener("click", function () {
+                  ratingInput.value = idx + 1;
+                  setStars(idx + 1);
+                });
+              });
+            });
+          </script>
+
+          <!-- AJAX для добавления в корзину -->
+          <script>
+            document.addEventListener("DOMContentLoaded", function () {
+              // Обработчик для форм добавления в корзину
+              document
+                .querySelectorAll(".cart-add-form")
+                .forEach(function (form) {
+                  form.addEventListener("submit", function (e) {
+                    e.preventDefault();
+
+                    // Отправляем AJAX запрос
+                    fetch(form.action, {
+                      method: "POST",
+                      headers: {
+                        "X-Requested-With": "XMLHttpRequest",
+                        "X-CSRFToken": form.querySelector(
+                          "[name=csrfmiddlewaretoken]"
+                        ).value,
+                      },
+                      body: new FormData(form),
+                    })
+                      .then((response) => response.json())
+                      .then((data) => {
+                        if (data.success) {
+                          // Обновляем счетчик корзины в header
+                          const cartLink = document.querySelector(
+                            '.nav-link[href="/cart/"]'
+                          );
+                          if (cartLink) {
+                            let cartBadge = cartLink.querySelector(".badge");
+                            if (data.cart_count > 0) {
+                              if (cartBadge) {
+                                cartBadge.textContent = data.cart_count;
+                              } else {
+                                cartBadge = document.createElement("span");
+                                cartBadge.className =
+                                  "position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger";
+                                cartBadge.textContent = data.cart_count;
+                                cartLink.appendChild(cartBadge);
+                              }
+                            } else {
+                              if (cartBadge) {
+                                cartBadge.remove();
+                              }
+                            }
+                          }
+                          // Показываем уведомление
+                          showNotification(data.message, "success");
+                        } else {
+                          throw new Error("Ошибка добавления товара");
+                        }
+                      })
+                      .catch((error) => {
+                        console.error("Ошибка:", error);
+                        showNotification(
+                          "Ошибка при добавлении товара",
+                          "error"
+                        );
+                      });
+                  });
+                });
+
+              // Функция для показа уведомлений
+              function showNotification(message, type) {
+                // Создаем элемент уведомления
+                const notification = document.createElement("div");
+                notification.className = `alert alert-${
+                  type === "success" ? "success" : "danger"
+                } alert-dismissible fade show position-fixed`;
+                notification.style.cssText =
+                  "bottom: 20px; right: 20px; z-index: 9999; min-width: 300px; position: fixed;";
+                notification.innerHTML = `
+                    ${message}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                `;
+
+                document.body.appendChild(notification);
+
+                // Обработчик для кнопки закрытия
+                const closeBtn = notification.querySelector(".btn-close");
+                if (closeBtn) {
+                  closeBtn.addEventListener("click", function () {
+                    if (notification.parentNode) {
+                      notification.remove();
+                    }
+                  });
+                }
+
+                // Удаляем уведомление через 3 секунды
+                setTimeout(() => {
+                  if (notification.parentNode) {
+                    notification.remove();
+                  }
+                }, 3000);
+              }
+            });
+          </script>
+          <h3>{% trans 'Отзывы' %}</h3>
+          {% for review in reviews %}
+          <div class="border rounded p-3 mb-3">
+            <div class="mb-1">
+              <strong>{{ review.name }}</strong> —
+              <span class="text-warning">
+                {% for i in "12345"|slice:":review.rating" %}★{% endfor %}
+              </span>
+            </div>
+            <div class="mb-1 text-muted" style="font-size: 0.9em">
+              {{ review.created_at|date:"d.m.Y H:i" }}
+            </div>
+            <div>{{ review.comment }}</div>
+          </div>
+          {% empty %}
+          <div>{% trans 'Пока нет отзывов.' %}</div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    <footer class="bg-light py-4 mt-5">
+      <div class="container text-center">
+        <small>&copy; {{ now|date:"Y" }} {% trans 'Магазин игрушек' %}</small>
+      </div>
+    </footer>
+  </body>
+</html>

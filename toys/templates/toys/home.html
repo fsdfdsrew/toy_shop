@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <title>ToyBiz</title>
+    {% load static %} {% load i18n %}
+    <link rel="icon" type="image/png" href="{% static 'logo.png' %}" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <style>
+      .ad-banner {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        min-height: 250px;
+        background-color: #ffe1cc;
+        width: 100%;
+        gap: 20px;
+      }
+
+      .ad-image {
+        height: 100%;
+        object-fit: contain;
+        max-height: 600px;
+      }
+
+      .ad-center {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 20px;
+      }
+
+      .shop-button {
+        background-color: #f8e171;
+        border: none;
+        padding: 15px 30px;
+        font-size: 18px;
+        font-weight: bold;
+        border-radius: 8px;
+        color: #333;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .shop-button:hover {
+        background-color: #f0d860;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        color: #333;
+        text-decoration: none;
+      }
+
+      @media (max-width: 768px) {
+        .ad-banner {
+          grid-template-columns: 1fr;
+          grid-template-rows: auto auto auto;
+          text-align: center;
+        }
+
+        .ad-image {
+          max-height: 200px;
+        }
+
+        .shop-button {
+          padding: 12px 24px;
+          font-size: 16px;
+        }
+      }
+
+      .category-card img {
+        max-height: 120px;
+        object-fit: contain;
+      }
+      .toy-card img {
+        max-height: 160px;
+        object-fit: contain;
+      }
+      .brand-logo {
+        max-height: 60px;
+        max-width: 120px;
+        object-fit: contain;
+      }
+      .category-circle {
+        width: 90px;
+        height: 90px;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 3px solid #dee2e6;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 8px auto;
+        background: #f8f9fa;
+        transition: border-color 0.2s;
+        cursor: pointer;
+      }
+      .category-circle img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .category-link {
+        text-decoration: none;
+        color: inherit;
+      }
+      .home-toy-card-grid {
+        display: grid;
+        grid-template-rows: 4fr 1fr 1fr;
+        height: 320px;
+        background: #fff;
+        border: 2px solid #111;
+        border-radius: 24px;
+        box-shadow: 8px 8px 0 0 #111;
+        overflow: hidden;
+        position: relative;
+        transition: box-shadow 0.2s, border-color 0.2s;
+      }
+      .home-toy-card-grid:hover {
+        box-shadow: 12px 12px 0 0 #111;
+        border-color: #846eb2;
+      }
+      .home-toy-card-img {
+        grid-row: 1 / 2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f8f9fa;
+        padding: 12px;
+      }
+      .home-toy-card-img img {
+        max-height: 120px;
+        object-fit: contain;
+        width: auto;
+        margin: 0 auto;
+      }
+      .home-toy-card-title {
+        grid-row: 2 / 3;
+        display: -webkit-box;
+        font-weight: bold;
+        font-size: 1.1rem;
+        text-align: center;
+        padding: 0 8px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: normal;
+        max-height: 2.8em;
+        -webkit-box-orient: vertical;
+        color: #111;
+      }
+      .home-toy-card-price {
+        grid-row: 3 / 4;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.1rem;
+        font-weight: bold;
+        color: #333;
+        padding-bottom: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    {% include 'partials/header.html' %}
+
+    <div class="container mb-5" style="margin-top: 48px">
+      <div class="ad-banner">
+        <img
+          src="{% static 'ad-left.png' %}"
+          alt="Реклама слева"
+          class="ad-image"
+        />
+
+        <div class="ad-center">
+          <h1 style="font-weight: bold">
+            {% trans 'Добро пожаловать в ToyBiz' %}
+          </h1>
+          <p>{% trans 'Лучшие игрушки для детей всех возрастов' %}</p>
+          <a href="/shop/" class="shop-button">
+            {% trans 'Перейти в магазин' %}
+          </a>
+        </div>
+
+        <img
+          src="{% static 'ad-right.png' %}"
+          alt="Реклама справа"
+          class="ad-image"
+        />
+      </div>
+    </div>
+
+    <div class="container mb-5">
+      <h2 class="mb-4 text-center">{% trans 'Категории игрушек' %}</h2>
+      <div class="d-flex flex-wrap justify-content-center gap-3">
+        {% for category in categories %}
+        <a href="/shop/?category={{ category.id }}" class="category-link">
+          <div class="category-circle">
+            {% if category.image %}
+            <img src="{{ category.image.url }}" alt="{{ category.name }}" />
+            {% else %}
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/346/346399.png"
+              alt="{{ category.name }}"
+            />
+            {% endif %}
+          </div>
+          <div class="text-center small">{{ category.name }}</div>
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="container mb-5">
+      <h2 class="mb-4 text-center">{% trans 'Рекомендуем посмотреть' %}</h2>
+      <div class="row justify-content-center">
+        {% for toy in random_toys %}
+        <div class="col-12 col-md-4 mb-4">
+          <a href="/toys/{{ toy.slug }}/" class="text-decoration-none">
+            <div class="home-toy-card-grid">
+              <div class="home-toy-card-img">
+                {% if toy.main_image %}
+                <img src="{{ toy.main_image.url }}" alt="{{ toy.name }}" />
+                {% else %}
+                <img
+                  src="https://cdn-icons-png.flaticon.com/512/346/346399.png"
+                  alt="{{ toy.name }}"
+                />
+                {% endif %}
+              </div>
+              <div class="home-toy-card-title">{{ toy.name }}</div>
+              <div class="home-toy-card-price">{{ toy.price }} ₽</div>
+            </div>
+          </a>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center">
+          {% trans 'Нет игрушек для отображения.' %}
+        </div>
+        {% endfor %}
+      </div>
+      <div class="text-center mt-4">
+        <a href="/shop/" class="btn btn-success btn-lg"
+          >{% trans 'Посмотреть все товары' %}</a
+        >
+      </div>
+    </div>
+
+    <div class="container mb-5">
+      <h2 class="mb-4 text-center">{% trans 'Наши бренды' %}</h2>
+      <div class="row justify-content-center align-items-center">
+        {% for brand in brands %}
+        <div class="col-6 col-md-3 col-lg-2 mb-4 text-center">
+          {% if brand.logo %}
+          <img
+            src="{{ brand.logo.url }}"
+            class="brand-logo mb-2"
+            alt="{{ brand.name }}"
+          />
+          {% else %}
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/346/346399.png"
+            class="brand-logo mb-2"
+            alt="{{ brand.name }}"
+          />
+          {% endif %}
+          <div>{{ brand.name }}</div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <footer class="bg-light py-4 mt-5">
+      <div class="container text-center">
+        <small>&copy; {{ now|date:"Y" }} {% trans 'Магазин игрушек' %}</small>
+      </div>
+    </footer>
+  </body>
+</html>

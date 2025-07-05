@@ -1,0 +1,117 @@
+{% load i18n %}
+{% load static %}
+<style>
+body {
+    background-color: #fdf3e7 !important;
+    min-height: 100vh;
+}
+
+.bg-yellow-custom {
+    background-color: #f8e171 !important;
+}
+
+.nav-button {
+    background: #fdf3e7;
+    padding: 8px 16px;
+    margin: 0 4px;
+    cursor: pointer;
+
+    color: #333;
+    transition: background-color 0.3s;
+
+    font-weight: bold;
+    border-width: 2px;
+}
+
+.navbar-main{
+  display: flex;
+  width: 100%;
+
+  button{
+    margin: 0;
+    flex: 1;
+    padding: 5px;
+  }
+}
+
+.navbar-cart-lang {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+
+    span {
+    flex: 1;
+    text-align: center;
+    font-weight: bold;
+}
+}
+</style>
+
+<nav class="">
+  <div class="flex flex-column w-full">
+    <div class="bg-yellow-custom navbar-cart-lang" style="padding-top: 12px;">
+      <span style="grid-column-start: 2; text-align: center;">{% trans 'Бесплатная доставка по всему миру' %}</span>
+      
+
+      <div style="display: flex; grid-column-start: 3; justify-content: right;">
+        <ul class="navbar-nav navbar-cart-lang">
+          <li class="nav-item">
+            <a
+              class="nav-link position-relative{% if request.path|slice:':5' == '/cart' %} active{% endif %}"
+              href="/cart/"
+              title="{% trans 'Корзина' %}"
+            >
+              <i class="bi bi-cart3"></i>
+              {% if cart_count and cart_count > 0 %}
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                  {{ cart_count }}
+                </span>
+              {% endif %}
+            </a>
+          </li>
+        </ul>
+
+        <form action="/i18n/setlang/" method="post" class="ms-3 d-flex align-items-center" id="language-form">{% csrf_token %}
+          <select name="language" class="form-select form-select-sm me-2" id="language-select">
+            <option value="ru" {% if CURRENT_LANGUAGE == 'ru' %}selected{% endif %}>Русский</option>
+            <option value="en" {% if CURRENT_LANGUAGE == 'en' %}selected{% endif %}>English</option>
+          </select>
+        </form>
+      </div>
+
+    </div>
+    <div class="navbar-main">
+      <button class="nav-button{% if request.path == '/' %} active{% endif %}" onclick="window.location.href='/'">{% trans 'Главная' %}</button>
+      <button style="background-color: transparent;">
+        <a href="/">
+          <img src="{% static 'logo.png' %}" alt="{% trans 'Магазин игрушек' %}" height="70" class="d-inline-block align-text-top">
+        </a>
+      </button>
+      <button class="nav-button{% if request.path|slice:':6' == '/shop/' %} active{% endif %}" onclick="window.location.href='/shop/'">{% trans 'Магазин' %}</button>
+    </div>
+  </div>
+</nav>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const languageSelect = document.getElementById('language-select');
+    const languageForm = document.getElementById('language-form');
+    
+    languageSelect.addEventListener('change', function() {
+        // Добавляем скрытое поле с текущим URL для возврата на ту же страницу
+        const currentUrl = window.location.pathname + window.location.search;
+        let nextField = languageForm.querySelector('input[name="next"]');
+        
+        if (!nextField) {
+            nextField = document.createElement('input');
+            nextField.type = 'hidden';
+            nextField.name = 'next';
+            languageForm.appendChild(nextField);
+        }
+        nextField.value = currentUrl;
+        
+        // Отправляем форму
+        languageForm.submit();
+    });
+});
+</script>
+ 
