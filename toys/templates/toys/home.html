@@ -15,16 +15,17 @@
     />
     <style>
       .ad-banner {
-        display: flex;
-        justify-content: space-between;
+        position: relative;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
         align-items: center;
         min-height: 250px;
         background-color: #ffe1cc;
         width: 100%;
-        gap: 20px;
       }
 
       .ad-image {
+        position: absolute;
         height: 100%;
         object-fit: contain;
         max-height: 600px;
@@ -37,6 +38,11 @@
         justify-content: center;
         text-align: center;
         padding: 20px;
+        z-index: 10;
+        margin-top: 145px;
+        margin-bottom: 145px;
+        max-width: 400px;
+        grid-column: 3;
       }
 
       .shop-button {
@@ -178,6 +184,7 @@
           src="{% static 'ad-left.png' %}"
           alt="Реклама слева"
           class="ad-image"
+          style="right: 0;"
         />
 
         <div class="ad-test">
@@ -194,6 +201,7 @@
           src="{% static 'ad-right.png' %}"
           alt="Реклама справа"
           class="ad-image"
+          style="left: 0;"
         />
       </div>
     </div>
